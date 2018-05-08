@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.List;
+import java.util.ArrayList;
 
 public class QuoteAdapter RecyclerView.Adapter<QuoteAdapter.MyViewHolder>{
     private List<Quote> quoteList;
@@ -30,6 +31,11 @@ public class QuoteAdapter RecyclerView.Adapter<QuoteAdapter.MyViewHolder>{
             this.quoteList = quoteList;
         }
         @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.quote_list, parent, false);
+            return new MyViewHolder(itemView);
+        }
+        @Override
         public void onBindViewHolder(MyViewHolder holder, int position){
             Quote q = quoteList.get(position);
             holder.Name.setText(quote.getName());
@@ -40,7 +46,7 @@ public class QuoteAdapter RecyclerView.Adapter<QuoteAdapter.MyViewHolder>{
             holder.offerPoints.setText(quote.getOfferPoints());
             holder.High.setText(quote.getHigh());
             holder.Low.setText(quote.getLow());
-            hodler.Open.setText(quote.getOpen());
+            holder.Open.setText(quote.getOpen());
         }
 
         @Override

@@ -35,7 +35,7 @@ public class Main2Activity extends AppCompatActivity {
         RecyclerView.LayoutManager qLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerview.setLayoutManager(qLayoutManager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
-        recyclerview.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //recyclerview.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerview.setAdapter(qAdapter);
 
         recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerview, new RecyclerTouchListener.ClickListener(){
@@ -46,7 +46,7 @@ public class Main2Activity extends AppCompatActivity {
             }
 
             @Override
-            public void on LongClick(View view, int position){
+            public void onLongClick(View view, int position){
                 //add event for long click
             }
         }));

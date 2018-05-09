@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Observable;
 
 public class Quote extends Observable{
+
     private String Name;
     private long timestamp;
     private BigDecimal bidBig;
@@ -13,6 +14,11 @@ public class Quote extends Observable{
     private BigDecimal High;
     private BigDecimal Low;
     private BigDecimal Open;
+
+    private BigDecimal oldbidBig;
+    private int oldbidPoints;
+    private BigDecimal oldofferBig;
+    private int oldofferPoints;
 
     public Quote(
             String Name,
@@ -25,7 +31,7 @@ public class Quote extends Observable{
             BigDecimal Low,
             BigDecimal Open) {
         this.Name = Name;
-       this.timestamp = timestamp;
+        this.timestamp = timestamp;
         this.bidBig = bidBig;
         this.bidPoints = bidPoints;
         this.offerBig = offerBig;
@@ -33,6 +39,24 @@ public class Quote extends Observable{
         this.High = High;
         this.Low = Low;
         this.Open = Open;
+    }
+
+    public Quote(Wrapper w) {
+        this.Name = w.Name;
+        this.timestamp = w.timestamp;
+        this.bidBig = w.bidBig;
+        this.bidPoints = w.bidPoints;
+        this.offerBig = w.offerBig;
+        this.offerPoints = w.offerPoints;
+        this.High = w.High;
+        this.Low = w.Low;
+        this.Open = w.Open;
+
+        this.oldbidBig = w.bidBig;
+        this.oldbidPoints = w.bidPoints;
+        this.oldofferBig = w.offerBig;
+        this.oldofferPoints = w.offerPoints;
+
     }
 
     public void setParameters(
@@ -58,11 +82,32 @@ public class Quote extends Observable{
         measurementsChanged();
     }
 
+    public void setParameters(Wrapper w) {
+        this.Name = w.Name;
+        this.timestamp = w.timestamp;
+        this.bidBig = w.bidBig;
+        this.bidPoints = w.bidPoints;
+        this.offerBig = w.offerBig;
+        this.offerPoints = w.offerPoints;
+        this.High = w.High;
+        this.Low = w.Low;
+        this.Open = w.Open;
+
+        measurementsChanged();
+    }
+
+    public void setOldParameters(Observable q) {
+        this.oldbidBig = ((Quote) q).bidBig;
+        this.oldbidPoints = ((Quote) q).bidPoints;
+        this.oldofferBig = ((Quote) q).offerBig;
+        this.oldofferPoints = ((Quote) q).offerPoints;
+    }
+
     public String getName() {
         return this.Name;
     }
     public long getTimestamp() {
-       return this.timestamp;
+        return this.timestamp;
     }
     public BigDecimal getBidBig() {
         return this.bidBig;
@@ -85,10 +130,23 @@ public class Quote extends Observable{
     public BigDecimal getOpen() {
         return this.Open;
     }
+    public BigDecimal getOldBidBig() {
+        return this.oldbidBig;
+    }
+    public int getOldBidPoints() {
+        return this.oldbidPoints;
+    }
+    public BigDecimal getOldOfferBig() {
+        return this.oldofferBig;
+    }
+    public int getOldOfferPoints() {
+        return this.oldofferPoints;
+    }
+
 
     public void printParams() {
         System.out.println(getName() + " "
-               + getTimestamp() + " "
+                + getTimestamp() + " "
                 + getBidBig().toString()
                 + getBidPoints() + " "
                 + getOfferBig().toString()
@@ -112,9 +170,8 @@ public class Quote extends Observable{
 
     public void measurementsChanged() {
         setChanged();
-        notifyObservers(new Wrapper(Name,timestamp,bidBig,bidPoints,offerBig,offerPoints,High,Low,Open));
-        //notifyObservers(new Wrapper(Name,bidBig,bidPoints,offerBig,offerPoints,High,Low,Open));
-        //notifyObservers(this);
+        //notifyObservers(new Wrapper(Name,timestamp,bidBig,bidPoints,offerBig,offerPoints,High,Low,Open));
+        notifyObservers(this);
     }
 
 }
